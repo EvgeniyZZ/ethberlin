@@ -88,6 +88,7 @@ class App extends React.Component {
           privateKey
        );
        console.log(link);
+       let validate_result = contractValidator.validate();
       };
       reader.readAsArrayBuffer(file);
     }
