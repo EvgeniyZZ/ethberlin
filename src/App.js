@@ -9,6 +9,7 @@ import Web3 from 'web3';
 
 import InputField from './inputField.js';
 
+const ValidatorContract = require('./validatorContract.js');
 const Filestorage = require('@skalenetwork/filestorage.js/src/index');
 require('dotenv').config();
 
@@ -21,7 +22,7 @@ class App extends React.Component {
         addressTo: '',
         uploadedImage: '',
         result: '',
-        Amount: ''
+        amount: ''
 
     }
     this.updateAddressFrom = this.updateAddressFrom.bind(this);
@@ -59,7 +60,7 @@ class App extends React.Component {
 
       //get filestorage instance
       let filestorage = new Filestorage(web3Provider, true);
-
+      let contract = new ValidatorContract(web3);
       //provide your account & private key
       //note this must include the 0x prefix
       let privateKey = '5B879CA653D3C015637C4614C411BE4865B7F3AC0853C55259733DD1EF33C396';
@@ -88,7 +89,9 @@ class App extends React.Component {
           privateKey
        );
        console.log(link);
-       let validate_result = contractValidator.validate();
+
+       let validate_result = await contract.validate(account, file.name);
+       console.log(validate_result);
       };
       reader.readAsArrayBuffer(file);
     }

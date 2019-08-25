@@ -1,6 +1,6 @@
 const configJson = require('./config.json');
-const abi = configJson['Validator']['abi'];
-const contractAddress = configJson['Validator']['address'];
+const abi = configJson['abi'];
+const contractAddress = configJson['address'];
 
 class ValidatorContract {
 	constructor (web3) {
@@ -9,7 +9,11 @@ class ValidatorContract {
 	}
 
 	async validate(address, fileName) {
-		let result = this.contract.methods.validate(address, fileName);
+	    console.log('aaaa');
+		let result = await this.contract.methods.validate(address, fileName).call({gas: 100000000, gasPrice: 0});
+		console.log('bbbb');
 		return result;
 	}
 }
+
+module.exports = ValidatorContract;
